@@ -11,7 +11,9 @@
   "author": "Manuel Ruiz Santiago",
   "license": "ISC",
   "dependencies": {
+    "moment": "^2.18.1",
     "react": "^15.5.4",
+    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
     "superagent": "^3.5.2",
     "superagent-jsonp": "^0.1.1"
