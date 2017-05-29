@@ -2,8 +2,11 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Request = require('superagent');
 var jsonp = require('superagent-jsonp');
-var bootstrap = require('react-bootstrap');
+//var bootstrap = require('bootstrap');
 var moment = require('moment');
+
+//CSS
+require('./css/style.css');
 
 //Create a component
 var CityComponent = React.createClass({
@@ -65,32 +68,19 @@ var CityComponent = React.createClass({
           name: location.name,
           country: location.country
         });
-      //this.handleSubmit('Granada');
       } //Initial location
-
-      // const { types=['(cities)'] } = this.props;
-  		// this.autocomplete = new google.maps.places.Autocomplete(this.refs.location, {
-  		//   types,
-  		// });
-  		// this.autocomplete.addListener('place_changed', this.onSelected); //Autocomplete
     }, //componentDidMount
 
     render: function(){
       return(
           <div id="city-list">
             <header>
-              <p>Weather Forecast</p>
-              <p>{this.state.name}, {this.state.country}</p>
+              <h1>Weather Forecast</h1>
+              <h2>{this.state.name}, {this.state.country}</h2>
             </header>
-            <div>
-              <div id="handleChange">
-                <form id="search-city" onSubmit={this.handleSubmit}>
-                  <input type="text" name="searchCity" ref="newCity" required />
-                  <input type="submit" value="Search" />
-                </form>
-              </div>
+            <div id="info">
               <div id="today">
-                <h2>Today</h2>
+                <h1>Today</h1>
                 <p>Now: {this.state.today_day}</p>
                 <p>Temperature maximum: {this.state.today_max}</p>
                 <p>Temperature minimum: {this.state.today_min}</p>
@@ -98,55 +88,61 @@ var CityComponent = React.createClass({
                 <p>Temperature during evening: {this.state.today_eve}</p>
                 <p>Temperature during night: {this.state.today_night}</p>
               </div>
-            </div>
-            <div id="7days">
-              <div id="day1">
-                <h2>{this.state.day1}</h2>
-                <p>Temperature minimum: {this.state.day1_min}</p>
-                <p>Temperature maximum: {this.state.day1_max}</p>
-                <p>Temperature during morning: {this.state.day1_morn}</p>
-                <p>Temperature during evening: {this.state.day1_eve}</p>
-                <p>Temperature during night: {this.state.day1_night}</p>
+              <div id="handleChange" >
+                <form id="search-city" onSubmit={this.handleSubmit}>
+                  <input type="text" name="searchCity" ref="newCity" required />
+                  <input type="submit" class="btn" value="Search" />
+                </form>
               </div>
-              <div id="day2">
-                <h2>{this.state.day2}</h2>
-                <p>Temperature minimum: {this.state.day2_min}</p>
-                <p>Temperature maximum: {this.state.day2_max}</p>
-                <p>Temperature during morning: {this.state.day2_morn}</p>
-                <p>Temperature during evening: {this.state.day2_eve}</p>
-                <p>Temperature during night: {this.state.day2_night}</p>
-              </div>
-              <div id="day3">
-                <h2>{this.state.day3}</h2>
-                <p>Temperature minimum: {this.state.day3_min}</p>
-                <p>Temperature maximum: {this.state.day3_max}</p>
-                <p>Temperature during morning: {this.state.day3_morn}</p>
-                <p>Temperature during evening: {this.state.day3_eve}</p>
-                <p>Temperature during night: {this.state.day3_night}</p>
-              </div>
-              <div id="day4">
-                <h2>{this.state.day4}</h2>
-                <p>Temperature minimum: {this.state.day4_min}</p>
-                <p>Temperature maximum: {this.state.day4_max}</p>
-                <p>Temperature during morning: {this.state.day4_morn}</p>
-                <p>Temperature during evening: {this.state.day4_eve}</p>
-                <p>Temperature during night: {this.state.day4_night}</p>
-              </div>
-              <div id="day5">
-                <h2>{this.state.day5}</h2>
-                <p>Temperature minimum: {this.state.day5_min}</p>
-                <p>Temperature maximum: {this.state.day5_max}</p>
-                <p>Temperature during morning: {this.state.day5_morn}</p>
-                <p>Temperature during evening: {this.state.day5_eve}</p>
-                <p>Temperature during night: {this.state.day5_night}</p>
-              </div>
-              <div id="day6">
-                <h2>{this.state.day6}</h2>
-                <p>Temperature minimum: {this.state.day6_min}</p>
-                <p>Temperature maximum: {this.state.day6_max}</p>
-                <p>Temperature during morning: {this.state.day6_morn}</p>
-                <p>Temperature during evening: {this.state.day6_eve}</p>
-                <p>Temperature during night: {this.state.day6_night}</p>
+              <div id="prevision">
+                <div id="day1">
+                  <h2>{this.state.day1}</h2>
+                  <p>Temperature minimum: {this.state.day1_min}</p>
+                  <p>Temperature maximum: {this.state.day1_max}</p>
+                  <p>Temperature during morning: {this.state.day1_morn}</p>
+                  <p>Temperature during evening: {this.state.day1_eve}</p>
+                  <p>Temperature during night: {this.state.day1_night}</p>
+                </div>
+                <div id="day2">
+                  <h2>{this.state.day2}</h2>
+                  <p>Temperature minimum: {this.state.day2_min}</p>
+                  <p>Temperature maximum: {this.state.day2_max}</p>
+                  <p>Temperature during morning: {this.state.day2_morn}</p>
+                  <p>Temperature during evening: {this.state.day2_eve}</p>
+                  <p>Temperature during night: {this.state.day2_night}</p>
+                </div>
+                <div id="day3">
+                  <h2>{this.state.day3}</h2>
+                  <p>Temperature minimum: {this.state.day3_min}</p>
+                  <p>Temperature maximum: {this.state.day3_max}</p>
+                  <p>Temperature during morning: {this.state.day3_morn}</p>
+                  <p>Temperature during evening: {this.state.day3_eve}</p>
+                  <p>Temperature during night: {this.state.day3_night}</p>
+                </div>
+                <div id="day4">
+                  <h2>{this.state.day4}</h2>
+                  <p>Temperature minimum: {this.state.day4_min}</p>
+                  <p>Temperature maximum: {this.state.day4_max}</p>
+                  <p>Temperature during morning: {this.state.day4_morn}</p>
+                  <p>Temperature during evening: {this.state.day4_eve}</p>
+                  <p>Temperature during night: {this.state.day4_night}</p>
+                </div>
+                <div id="day5">
+                  <h2>{this.state.day5}</h2>
+                  <p>Temperature minimum: {this.state.day5_min}</p>
+                  <p>Temperature maximum: {this.state.day5_max}</p>
+                  <p>Temperature during morning: {this.state.day5_morn}</p>
+                  <p>Temperature during evening: {this.state.day5_eve}</p>
+                  <p>Temperature during night: {this.state.day5_night}</p>
+                </div>
+                <div id="day6">
+                  <h2>{this.state.day6}</h2>
+                  <p>Temperature minimum: {this.state.day6_min}</p>
+                  <p>Temperature maximum: {this.state.day6_max}</p>
+                  <p>Temperature during morning: {this.state.day6_morn}</p>
+                  <p>Temperature during evening: {this.state.day6_eve}</p>
+                  <p>Temperature during night: {this.state.day6_night}</p>
+                </div>
               </div>
             </div>
           </div>
