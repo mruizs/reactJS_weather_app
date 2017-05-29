@@ -13,7 +13,8 @@
   "dependencies": {
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "superagent": "^3.5.2"
+    "superagent": "^3.5.2",
+    "superagent-jsonp": "^0.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
