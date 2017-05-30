@@ -2,9 +2,8 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Request = require('superagent');
 var jsonp = require('superagent-jsonp');
-//var bootstrap = require('bootstrap');
 var moment = require('moment');
-
+//require('./graph');
 //CSS
 require('./css/style.css');
 
@@ -55,7 +54,17 @@ var CityComponent = React.createClass({
         day6_max: '',
         day6_night: '',
         day6_eve: '',
-        day6_morn: ''
+        day6_morn: '',
+        symbol: '',
+        units: '',
+        label0: '',
+        label1: '',
+        label2: '',
+        label3: '',
+        label4: '',
+        label5: '',
+        label6: '',
+        avgPressure: ''
       };
       this.SearchCity.search = this.SearchCity.search.bind(this);
     }, //getInitialState
@@ -66,7 +75,8 @@ var CityComponent = React.createClass({
       } else {
         this.setState({
           name: location.name,
-          country: location.country
+          country: location.country,
+          units: 'metric'
         });
       } //Initial location
     }, //componentDidMount
@@ -80,68 +90,73 @@ var CityComponent = React.createClass({
             </header>
             <div id="info">
               <div id="today">
-                <h1>Today</h1>
-                <p>Now: {this.state.today_day}</p>
-                <p>Temperature maximum: {this.state.today_max}</p>
-                <p>Temperature minimum: {this.state.today_min}</p>
-                <p>Temperature during morning: {this.state.today_morn}</p>
-                <p>Temperature during evening: {this.state.today_eve}</p>
-                <p>Temperature during night: {this.state.today_night}</p>
+                <h2>Today</h2>
+                <p>Now: {this.state.today_day} {this.state.symbol}</p>
+                <p>Max: {this.state.today_max} {this.state.symbol}</p>
+                <p>Min: {this.state.today_min} {this.state.symbol}</p>
+                <p>Morning: {this.state.today_morn} {this.state.symbol}</p>
+                <p>Evening: {this.state.today_eve} {this.state.symbol}</p>
+                <p>Night: {this.state.today_night} {this.state.symbol}</p>
+                <p>Avg. Pressure for this week: {this.state.avgPressure}hpa</p>
               </div>
               <div id="handleChange" >
                 <form id="search-city" onSubmit={this.handleSubmit}>
-                  <input type="text" name="searchCity" ref="newCity" required />
-                  <input type="submit" class="btn" value="Search" />
+                  <input type="radio" value="metric" checked={this.state.units === 'metric'} onChange={this.onUnitsChanged} />
+                  <label> Celsius</label>
+                  <input type="radio" value="imperial" checked={this.state.units === 'imperial'} onChange={this.onUnitsChanged} />
+                  <label> Fahrenheit</label>
+                  <input type="text" name="searchCity" placeholder="Your City Name" ref="newCity" required />
+                  <input type="submit" id="button" value="Search" />
                 </form>
               </div>
               <div id="prevision">
                 <div id="day1">
                   <h2>{this.state.day1}</h2>
-                  <p>Temperature minimum: {this.state.day1_min}</p>
-                  <p>Temperature maximum: {this.state.day1_max}</p>
-                  <p>Temperature during morning: {this.state.day1_morn}</p>
-                  <p>Temperature during evening: {this.state.day1_eve}</p>
-                  <p>Temperature during night: {this.state.day1_night}</p>
+                  <p>Min: {this.state.day1_min} {this.state.symbol}</p>
+                  <p>Max: {this.state.day1_max} {this.state.symbol}</p>
+                  <p>Morning: {this.state.day1_morn} {this.state.symbol}</p>
+                  <p>Evening: {this.state.day1_eve} {this.state.symbol}</p>
+                  <p>Night: {this.state.day1_night} {this.state.symbol}</p>
                 </div>
                 <div id="day2">
                   <h2>{this.state.day2}</h2>
-                  <p>Temperature minimum: {this.state.day2_min}</p>
-                  <p>Temperature maximum: {this.state.day2_max}</p>
-                  <p>Temperature during morning: {this.state.day2_morn}</p>
-                  <p>Temperature during evening: {this.state.day2_eve}</p>
-                  <p>Temperature during night: {this.state.day2_night}</p>
+                  <p>Min: {this.state.day2_min} {this.state.symbol}</p>
+                  <p>Max: {this.state.day2_max} {this.state.symbol}</p>
+                  <p>Morning: {this.state.day2_morn} {this.state.symbol}</p>
+                  <p>Evening: {this.state.day2_eve} {this.state.symbol}</p>
+                  <p>Night: {this.state.day2_night} {this.state.symbol}</p>
                 </div>
                 <div id="day3">
                   <h2>{this.state.day3}</h2>
-                  <p>Temperature minimum: {this.state.day3_min}</p>
-                  <p>Temperature maximum: {this.state.day3_max}</p>
-                  <p>Temperature during morning: {this.state.day3_morn}</p>
-                  <p>Temperature during evening: {this.state.day3_eve}</p>
-                  <p>Temperature during night: {this.state.day3_night}</p>
+                  <p>Min: {this.state.day3_min} {this.state.symbol}</p>
+                  <p>Max: {this.state.day3_max} {this.state.symbol}</p>
+                  <p>Morning: {this.state.day3_morn} {this.state.symbol}</p>
+                  <p>Evening: {this.state.day3_eve} {this.state.symbol}</p>
+                  <p>Night: {this.state.day3_night} {this.state.symbol}</p>
                 </div>
                 <div id="day4">
                   <h2>{this.state.day4}</h2>
-                  <p>Temperature minimum: {this.state.day4_min}</p>
-                  <p>Temperature maximum: {this.state.day4_max}</p>
-                  <p>Temperature during morning: {this.state.day4_morn}</p>
-                  <p>Temperature during evening: {this.state.day4_eve}</p>
-                  <p>Temperature during night: {this.state.day4_night}</p>
+                  <p>Min: {this.state.day4_min} {this.state.symbol}</p>
+                  <p>Max: {this.state.day4_max} {this.state.symbol}</p>
+                  <p>Morning: {this.state.day4_morn} {this.state.symbol}</p>
+                  <p>Evening: {this.state.day4_eve} {this.state.symbol}</p>
+                  <p>Night: {this.state.day4_night} {this.state.symbol}</p>
                 </div>
                 <div id="day5">
                   <h2>{this.state.day5}</h2>
-                  <p>Temperature minimum: {this.state.day5_min}</p>
-                  <p>Temperature maximum: {this.state.day5_max}</p>
-                  <p>Temperature during morning: {this.state.day5_morn}</p>
-                  <p>Temperature during evening: {this.state.day5_eve}</p>
-                  <p>Temperature during night: {this.state.day5_night}</p>
+                  <p>Min: {this.state.day5_min} {this.state.symbol}</p>
+                  <p>Max: {this.state.day5_max} {this.state.symbol}</p>
+                  <p>Morning: {this.state.day5_morn} {this.state.symbol}</p>
+                  <p>Evening: {this.state.day5_eve} {this.state.symbol}</p>
+                  <p>Night: {this.state.day5_night} {this.state.symbol}</p>
                 </div>
                 <div id="day6">
                   <h2>{this.state.day6}</h2>
-                  <p>Temperature minimum: {this.state.day6_min}</p>
-                  <p>Temperature maximum: {this.state.day6_max}</p>
-                  <p>Temperature during morning: {this.state.day6_morn}</p>
-                  <p>Temperature during evening: {this.state.day6_eve}</p>
-                  <p>Temperature during night: {this.state.day6_night}</p>
+                  <p>Min: {this.state.day6_min} {this.state.symbol}</p>
+                  <p>Max: {this.state.day6_max} {this.state.symbol}</p>
+                  <p>Morning: {this.state.day6_morn} {this.state.symbol}</p>
+                  <p>Evening: {this.state.day6_eve} {this.state.symbol}</p>
+                  <p>Night: {this.state.day6_night} {this.state.symbol}</p>
                 </div>
               </div>
             </div>
@@ -155,11 +170,25 @@ var CityComponent = React.createClass({
       this.search(this.refs.newCity.value);
     }, //handleSubmit
 
+    onUnitsChanged: function(changeEvent) {
+      this.setState ({
+        units: changeEvent.target.value
+      });
+    }, //onUnitsChanged
+
     search: function(newCity) {
       const url = 'http://api.openweathermap.org/data/2.5/forecast/daily';
-      const unit = 'metric';
+      var unit = 'metric';
+      var unitSimbol = '';
+      if (this.state.units === "imperial") {
+        unit = 'imperial';
+        unitSimbol = 'ºF';
+      } else {
+        unit = 'metric';
+        unitSimbol = 'ºC';
+      }
       const days = 7;
-      var apiKey = '0c13455f76f055afc22e9a1cf9b67b7c';
+      const apiKey = '0c13455f76f055afc22e9a1cf9b67b7c';
 
       var requestUrl = `${url}?q=${newCity}&cnt=${days}&&units=${unit}&APPID=${apiKey}`;
       console.log(requestUrl);
@@ -170,6 +199,7 @@ var CityComponent = React.createClass({
         if (res.body.cod === "200") {
           var newCity = res.body.city.name;
           var newCountry = res.body.city.country;
+          var newLabel0 = moment.unix(res.body.list[0].dt).format("ddd");
           var newToday_day = res.body.list[0].temp.day;
           var newToday_min = res.body.list[0].temp.min;
           var newToday_max = res.body.list[0].temp.max;
@@ -177,41 +207,53 @@ var CityComponent = React.createClass({
           var newToday_eve = res.body.list[0].temp.eve;
           var newToday_morn = res.body.list[0].temp.morn;
           var newDay1 = moment.unix(res.body.list[1].dt).format("ddd MMM Do");
+          var newLabel1 = moment.unix(res.body.list[1].dt).format("ddd");
           var newDay1_min = res.body.list[1].temp.min;
           var newDay1_max = res.body.list[1].temp.max;
           var newDay1_night = res.body.list[1].temp.night;
           var newDay1_eve = res.body.list[1].temp.eve;
           var newDay1_morn = res.body.list[1].temp.morn;
           var newDay2 = moment.unix(res.body.list[2].dt).format("ddd MMM Do");
+          var newLabel2 = moment.unix(res.body.list[2].dt).format("ddd");
           var newDay2_min = res.body.list[2].temp.min;
           var newDay2_max = res.body.list[2].temp.max;
           var newDay2_night = res.body.list[2].temp.night;
           var newDay2_eve = res.body.list[2].temp.eve;
           var newDay2_morn = res.body.list[2].temp.morn;
           var newDay3 = moment.unix(res.body.list[3].dt).format("ddd MMM Do");
+          var newLabel3 = moment.unix(res.body.list[3].dt).format("ddd");
           var newDay3_min = res.body.list[3].temp.min;
           var newDay3_max = res.body.list[3].temp.max;
           var newDay3_night = res.body.list[3].temp.night;
           var newDay3_eve = res.body.list[3].temp.eve;
           var newDay3_morn = res.body.list[3].temp.morn;
           var newDay4 = moment.unix(res.body.list[4].dt).format("ddd MMM Do");
+          var newLabel4 = moment.unix(res.body.list[4].dt).format("ddd");
           var newDay4_min = res.body.list[4].temp.min;
           var newDay4_max = res.body.list[4].temp.max;
           var newDay4_night = res.body.list[4].temp.night;
           var newDay4_eve = res.body.list[4].temp.eve;
           var newDay4_morn = res.body.list[4].temp.morn;
           var newDay5 = moment.unix(res.body.list[5].dt).format("ddd MMM Do");
+          var newLabel5 = moment.unix(res.body.list[5].dt).format("ddd");
           var newDay5_min = res.body.list[5].temp.min;
           var newDay5_max = res.body.list[5].temp.max;
           var newDay5_night = res.body.list[5].temp.night;
           var newDay5_eve = res.body.list[5].temp.eve;
           var newDay5_morn = res.body.list[5].temp.morn;
           var newDay6 = moment.unix(res.body.list[6].dt).format("ddd MMM Do");
+          var newLabel6 = moment.unix(res.body.list[6].dt).format("ddd");
           var newDay6_min = res.body.list[6].temp.min;
           var newDay6_max = res.body.list[6].temp.max;
           var newDay6_night = res.body.list[6].temp.night;
           var newDay6_eve = res.body.list[6].temp.eve;
           var newDay6_morn = res.body.list[6].temp.morn;
+
+          var pressure = 0;
+          for (var i = 0; i<days; i++) {
+            pressure += res.body.list[i].pressure;
+          }
+          var avgPressure = Math.round(pressure/days);
 
 
           this.setState({
@@ -258,7 +300,16 @@ var CityComponent = React.createClass({
             day6_max: newDay6_max,
             day6_night: newDay6_night,
             day6_eve: newDay6_eve,
-            day6_morn: newDay6_morn
+            day6_morn: newDay6_morn,
+            symbol: unitSimbol,
+            label0: newLabel0,
+            label1: newLabel1,
+            label2: newLabel2,
+            label3: newLabel3,
+            label4: newLabel4,
+            label5: newLabel5,
+            label6: newLabel6,
+            avgPressure: avgPressure
           });
         } else {
           console.log(err);
