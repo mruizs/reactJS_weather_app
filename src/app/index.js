@@ -1,15 +1,24 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Request = require('superagent');
-var jsonp = require('superagent-jsonp');
-var moment = require('moment');
-//require('./graph');
+'use strict';
+
+import React from "react"
+import ReactDOM  from "react-dom"
+import Request from "superagent"
+import jsonp from "superagent-jsonp"
+import moment from "moment"
+
 //CSS
-require('./css/style.css');
+import './css/style.css'
 
 //Create a component
-var CityComponent = React.createClass({
-    getInitialState: function() {
+class CityComponent extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+
+      }
+    } //constructor
+
+    getInitialState() {
       return {
         name: '',
         country: '',
@@ -67,9 +76,9 @@ var CityComponent = React.createClass({
         avgPressure: ''
       };
       this.SearchCity.search = this.SearchCity.search.bind(this);
-    }, //getInitialState
+    } //getInitialState
 
-    componentDidMount: function(location) {
+    componentDidMount(location) {
       if (!location) { //Initial Location
         this.search('Granada');
       } else {
@@ -79,9 +88,9 @@ var CityComponent = React.createClass({
           units: 'metric'
         });
       } //Initial location
-    }, //componentDidMount
+    } //componentDidMount
 
-    render: function(){
+    render(){
       return(
           <div id="city-list">
             <header>
@@ -162,21 +171,21 @@ var CityComponent = React.createClass({
             </div>
           </div>
       );
-    }, //render
+    } //render
 
     //Custom functions
-    handleSubmit: function(e) {
+    handleSubmit(e) {
       e.preventDefault();
       this.search(this.refs.newCity.value);
-    }, //handleSubmit
+    } //handleSubmit
 
-    onUnitsChanged: function(changeEvent) {
+    onUnitsChanged(changeEvent) {
       this.setState ({
         units: changeEvent.target.value
       });
-    }, //onUnitsChanged
+    } //onUnitsChanged
 
-    search: function(newCity) {
+    search(newCity) {
       const url = 'http://api.openweathermap.org/data/2.5/forecast/daily';
       var unit = 'metric';
       var unitSimbol = '';
@@ -316,8 +325,8 @@ var CityComponent = React.createClass({
         }
       }.bind(this));
     } //search
-});
+}
 
 
 
-ReactDOM.render(<CityComponent />, document.getElementById('city-wrapper'));
+ReactDOM.render(<CityComponent />, document.getElementById('city-wrapper'))
