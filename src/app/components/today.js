@@ -11,7 +11,7 @@ export default class Today extends React.Component {
         <p>Morning: {this.props.temp.morn} {this.props.symbol}</p>
         <p>Evening: {this.props.temp.eve} {this.props.symbol}</p>
         <p>Night: {this.props.temp.night} {this.props.symbol}</p>
-        <p>Avg. Pressure for this week: {this.props.avgPressure}hpa</p>
+        <p>Avg. Pressure for this week: {this.props.pressure}hpa</p>
       </div>
     )
   }

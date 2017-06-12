@@ -6,6 +6,7 @@ import moment from "moment"
 import Header from "./header"
 import Today from "./today"
 import Prevision from "./prevision"
+import Search from "./search"
 
 //CSS
 import "../css/style.css"
@@ -41,14 +42,7 @@ export default class Layout extends React.Component {
             <div id="info">
               <Today temp={this.state.day0} symbol={this.state.symbol} pressure={this.state.avgPressure} />
               <div id="handleChange" >
-                <form id="search-city" onSubmit={this.handleSubmit.bind(this)}>
-                  <input type="radio" value="metric" checked={this.state.units === 'metric'} onChange={this.onUnitsChanged.bind(this)} />
-                  <label> Celsius</label>
-                  <input type="radio" value="imperial" checked={this.state.units === 'imperial'} onChange={this.onUnitsChanged.bind(this)} />
-                  <label> Fahrenheit</label>
-                  <input type="text" name="searchCity" placeholder="Your City Name" ref="newCity" required />
-                  <input type="submit" id="button" value="Search" />
-                </form>
+                <Search units={this.state.units} onUnitsChanged={this.onUnitsChanged.bind(this)} search={this.search.bind(this)} />
               </div>
               <Prevision day1={this.state.day1} day2={this.state.day2} day3={this.state.day3} day4={this.state.day4} day5={this.state.day5} day6={this.state.day6} symbol={this.state.symbol} />
             </div>
@@ -56,14 +50,7 @@ export default class Layout extends React.Component {
       )
     } //render
 
-    //Custom functions
-    handleSubmit(e) {
-      e.preventDefault()
-      this.search(this.refs.newCity.value)
-    } //handleSubmit
-
     onUnitsChanged(changeEvent) {
-      console.log(changeEvent)
       this.setState ({
         units: changeEvent.target.value
       })
@@ -84,7 +71,7 @@ export default class Layout extends React.Component {
       const apiKey = '0c13455f76f055afc22e9a1cf9b67b7c'
 
       var requestUrl = `${url}?q=${newCity}&cnt=${days}&units=${unit}&APPID=${apiKey}`
-      console.log(requestUrl)
+      // console.log(requestUrl)
 
       Request.get(requestUrl).use(jsonp({
         timeout: 3000,
@@ -165,8 +152,6 @@ export default class Layout extends React.Component {
             eve: Math.round(res.body.list[6].temp.eve),
             morn: Math.round(res.body.list[6].temp.morn)
           }
-
-          console.log(city)
 
           this.setState({
             city: city,
