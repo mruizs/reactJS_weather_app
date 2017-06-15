@@ -3,7 +3,7 @@ import React from "react"
 export default class Today extends React.Component {
   render() {
     return (
-      <div id="today">
+      <div id="today" className="col-sm-12 col-lg-3">
         <h2>{this.props.temp.dt}</h2>
         <p>Now: {this.props.temp.day} {this.props.symbol}</p>
         <p>Max: {this.props.temp.max} {this.props.symbol}</p>

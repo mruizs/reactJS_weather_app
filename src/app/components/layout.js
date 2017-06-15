@@ -37,15 +37,15 @@ export default class Layout extends React.Component {
 
     render(){
       return(
-          <div id="city-list">
-            <Header city={this.state.city.name} country={this.state.city.country} />
-            <div id="info">
-              <Today temp={this.state.day0} symbol={this.state.symbol} pressure={this.state.avgPressure} />
-              <div id="handleChange" >
-                <Search units={this.state.units} onUnitsChanged={this.onUnitsChanged.bind(this)} search={this.search.bind(this)} />
-              </div>
-              <Prevision day1={this.state.day1} day2={this.state.day2} day3={this.state.day3} day4={this.state.day4} day5={this.state.day5} day6={this.state.day6} symbol={this.state.symbol} />
+          <div className="container">
+            <div className="row">
+              <Header city={this.state.city.name} country={this.state.city.country} />
             </div>
+            <div id="info" className="row">
+              <Today temp={this.state.day0} symbol={this.state.symbol} pressure={this.state.avgPressure} />
+              <Search units={this.state.units} onUnitsChanged={this.onUnitsChanged.bind(this)} search={this.search.bind(this)} />
+            </div>
+            <Prevision day1={this.state.day1} day2={this.state.day2} day3={this.state.day3} day4={this.state.day4} day5={this.state.day5} day6={this.state.day6} symbol={this.state.symbol} />
           </div>
       )
     } //render
