@@ -11,9 +11,11 @@
   "author": "Manuel Ruiz Santiago",
   "license": "ISC",
   "dependencies": {
+    "chart.js": "^1.1.1",
     "moment": "^2.18.1",
     "npm": "^5.0.3",
     "react": "^15.5.4",
+    "react-chartjs": "^0.8.0",
     "react-dom": "^15.5.4",
     "superagent": "^3.5.2",
     "superagent-jsonp": "^0.1.1"

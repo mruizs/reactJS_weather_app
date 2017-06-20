@@ -2,11 +2,13 @@ import React from "react"
 import Request from "superagent"
 import jsonp from "superagent-jsonp"
 import moment from "moment"
+import {Line as LineChart} from "react-chartjs"
 
 import Header from "./header"
 import Today from "./today"
 import Prevision from "./prevision"
 import Search from "./search"
+//import Chart from "./chart"
 
 //CSS
 import "../css/style.css"
@@ -27,7 +29,8 @@ export default class Layout extends React.Component {
         symbol: 'ºC',
         units: 'metric',
         avgPressure: '',
-        date: []
+        labels: [],
+        graph: []
       }
     } //constructor
 
@@ -36,6 +39,7 @@ export default class Layout extends React.Component {
     } //componentDidMount
 
     render(){
+      console.log(this.state.labels)
       return(
           <div className="container">
             <div className="row">
@@ -44,6 +48,13 @@ export default class Layout extends React.Component {
             <div id="info" className="row">
               <Today temp={this.state.day0} symbol={this.state.symbol} pressure={this.state.avgPressure} />
               <Search units={this.state.units} onUnitsChanged={this.onUnitsChanged.bind(this)} search={this.search.bind(this)} />
+              <LineChart data={
+                  labels: {this.state.labels},
+                  datasets: {this.state.graph}
+                }
+                width={800}
+                height={300}
+              />
             </div>
             <Prevision day1={this.state.day1} day2={this.state.day2} day3={this.state.day3} day4={this.state.day4} day5={this.state.day5} day6={this.state.day6} symbol={this.state.symbol} />
           </div>
@@ -153,6 +164,47 @@ export default class Layout extends React.Component {
             morn: Math.round(res.body.list[6].temp.morn)
           }
 
+          var graphLabels = [
+            moment.unix(res.body.list[0].dt).format("ddd"),
+            moment.unix(res.body.list[1].dt).format("ddd"),
+            moment.unix(res.body.list[2].dt).format("ddd"),
+            moment.unix(res.body.list[3].dt).format("ddd"),
+            moment.unix(res.body.list[4].dt).format("ddd"),
+            moment.unix(res.body.list[5].dt).format("ddd"),
+            moment.unix(res.body.list[6].dt).format("ddd")
+          ]
+
+          var graph = [
+            {
+              label: "Max",
+              backgroundColor: window.chartColors.red,
+              backgroundColor: window.chartColors.red,
+              data: [
+                res.body.list[0].temp.max,
+                res.body.list[1].temp.max,
+                res.body.list[2].temp.max,
+                res.body.list[3].temp.max,
+                res.body.list[4].temp.max,
+                res.body.list[5].temp.max,
+                res.body.list[6].temp.max
+              ]
+            },
+            {
+              label: "Min",
+              backgroundColor: window.chartColors.blue,
+              backgroundColor: window.chartColors.blue,
+              values: [
+                res.body.list[0].temp.min,
+                res.body.list[1].temp.min,
+                res.body.list[2].temp.min,
+                res.body.list[3].temp.min,
+                res.body.list[4].temp.min,
+                res.body.list[5].temp.min,
+                res.body.list[6].temp.min
+              ]
+            }
+          ]
+
           this.setState({
             city: city,
             day0: day0,
@@ -162,7 +214,9 @@ export default class Layout extends React.Component {
             day4: day4,
             day5: day5,
             day6: day6,
-            symbol: symbol
+            symbol: symbol,
+            labels: graphLabels,
+            graph: graph
           })
 
           var pressure = 0
