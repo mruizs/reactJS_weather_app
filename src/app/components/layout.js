@@ -2,7 +2,7 @@ import React from "react"
 import Request from "superagent"
 import jsonp from "superagent-jsonp"
 import moment from "moment"
-import { Line as LineChart } from "react-chartjs"
+import { Line as LineChart } from "react-chartjs-2"
 
 import Header from "./header"
 import Today from "./today"
@@ -12,46 +12,6 @@ import Search from "./search"
 
 //CSS
 import "../css/style.css"
-
-//ChartData
-// function ChartData() {
-//   return {
-//     labels: {this.state.labels},
-//     datasets: {this.state.graph}
-//   }
-// }
-
-const options = {
-  scaleShowGridLines: true,
-  scaleGridLineColor: 'rgba(0,0,0,.05)',
-  scaleGridLineWidth: 1,
-  scaleShowHorizontalLines: true,
-  scaleShowVerticalLines: true,
-  scales: {
-    yAxes: [{
-      ticks: {
-        beginAtZero:true
-      }
-    }]
-  },
-  bezierCurve: true,
-  bezierCurveTension: 0.4,
-  pointDot: true,
-  pointDotRadius: 4,
-  pointDotStrokeWidth: 1,
-  pointHitDetectionRadius: 20,
-  datasetStroke: true,
-  datasetStrokeWidth: 2,
-  datasetFill: true//,
-  //legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
-}
-
-const styles = {
-  graphContainer: {
-    border: '1px solid black',
-    padding: '15px'
-  }
-}
 
 //Create a component
 export default class Layout extends React.Component {
@@ -78,7 +38,38 @@ export default class Layout extends React.Component {
     } //componentDidMount
 
     render(){
-      console.log(options)
+      // console.log(options)
+      const options = {
+        scaleShowGridLines: true,
+        scaleGridLineColor: 'rgba(0,0,0,.05)',
+        scaleGridLineWidth: 1,
+        scaleShowHorizontalLines: true,
+        scaleShowVerticalLines: true,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true
+            }
+          }]
+        },
+        bezierCurve: true,
+        bezierCurveTension: 0.4,
+        pointDot: true,
+        pointDotRadius: 4,
+        pointDotStrokeWidth: 1,
+        pointHitDetectionRadius: 20,
+        datasetStroke: true,
+        datasetStrokeWidth: 2,
+        datasetFill: false
+      }
+
+      const styles = {
+        graphContainer: {
+          border: '1px solid black',
+          padding: '15px'
+        }
+      }
+
       return(
           <div className="container">
             <div className="row">
@@ -87,12 +78,15 @@ export default class Layout extends React.Component {
             <div id="info" className="row">
               <Today temp={this.state.day0} symbol={this.state.symbol} pressure={this.state.avgPressure} />
               <Search units={this.state.units} onUnitsChanged={this.onUnitsChanged.bind(this)} search={this.search.bind(this)} />
-              <LineChart
-                data={this.state.chartData}
-                options={options}
-                width={800}
-                height={300}
-              />
+              <div className="col-sm-12 col-lg-9">
+                <LineChart
+                  data={this.state.chartData}
+                  options={options}
+                  styles={styles}
+                  width={200}
+                  height={75}
+                />
+              </div>
             </div>
             <Prevision day1={this.state.day1} day2={this.state.day2} day3={this.state.day3} day4={this.state.day4} day5={this.state.day5} day6={this.state.day6} symbol={this.state.symbol} />
           </div>
@@ -216,26 +210,30 @@ export default class Layout extends React.Component {
               {
                 label: "Max",
                 data: [
-                  res.body.list[0].temp.max,
-                  res.body.list[1].temp.max,
-                  res.body.list[2].temp.max,
-                  res.body.list[3].temp.max,
-                  res.body.list[4].temp.max,
-                  res.body.list[5].temp.max,
-                  res.body.list[6].temp.max
-                ]
+                  Math.round(res.body.list[0].temp.max),
+                  Math.round(res.body.list[1].temp.max),
+                  Math.round(res.body.list[2].temp.max),
+                  Math.round(res.body.list[3].temp.max),
+                  Math.round(res.body.list[4].temp.max),
+                  Math.round(res.body.list[5].temp.max),
+                  Math.round(res.body.list[6].temp.max)
+                ],
+                borderColor: '#e24040',
+                backgroundColor: 'rgba(226, 64, 64, 0)'
               },
               {
                 label: "Min",
-                values: [
-                  res.body.list[0].temp.min,
-                  res.body.list[1].temp.min,
-                  res.body.list[2].temp.min,
-                  res.body.list[3].temp.min,
-                  res.body.list[4].temp.min,
-                  res.body.list[5].temp.min,
-                  res.body.list[6].temp.min
-                ]
+                data: [
+                  Math.round(res.body.list[0].temp.min),
+                  Math.round(res.body.list[1].temp.min),
+                  Math.round(res.body.list[2].temp.min),
+                  Math.round(res.body.list[3].temp.min),
+                  Math.round(res.body.list[4].temp.min),
+                  Math.round(res.body.list[5].temp.min),
+                  Math.round(res.body.list[6].temp.min)
+                ],
+                borderColor: '#40d0e2',
+                backgroundColor: 'rgba(226, 64, 64, 0)'
               }
             ]
           }
