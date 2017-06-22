@@ -8,7 +8,7 @@ import Header from "./header"
 import Today from "./today"
 import Prevision from "./prevision"
 import Search from "./search"
-//import Chart from "./chart"
+import Chart from "./chart"
 
 //CSS
 import "../css/style.css"
@@ -38,38 +38,6 @@ export default class Layout extends React.Component {
     } //componentDidMount
 
     render(){
-      // console.log(options)
-      const options = {
-        scaleShowGridLines: true,
-        scaleGridLineColor: 'rgba(0,0,0,.05)',
-        scaleGridLineWidth: 1,
-        scaleShowHorizontalLines: true,
-        scaleShowVerticalLines: true,
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero:true
-            }
-          }]
-        },
-        bezierCurve: true,
-        bezierCurveTension: 0.4,
-        pointDot: true,
-        pointDotRadius: 4,
-        pointDotStrokeWidth: 1,
-        pointHitDetectionRadius: 20,
-        datasetStroke: true,
-        datasetStrokeWidth: 2,
-        datasetFill: false
-      }
-
-      const styles = {
-        graphContainer: {
-          border: '1px solid black',
-          padding: '15px'
-        }
-      }
-
       return(
           <div className="container">
             <div className="row">
@@ -78,15 +46,7 @@ export default class Layout extends React.Component {
             <div id="info" className="row">
               <Today temp={this.state.day0} symbol={this.state.symbol} pressure={this.state.avgPressure} />
               <Search units={this.state.units} onUnitsChanged={this.onUnitsChanged.bind(this)} search={this.search.bind(this)} />
-              <div className="col-sm-12 col-lg-9">
-                <LineChart
-                  data={this.state.chartData}
-                  options={options}
-                  styles={styles}
-                  width={200}
-                  height={75}
-                />
-              </div>
+              <Chart chartData={this.state.chartData} />
             </div>
             <Prevision day1={this.state.day1} day2={this.state.day2} day3={this.state.day3} day4={this.state.day4} day5={this.state.day5} day6={this.state.day6} symbol={this.state.symbol} />
           </div>
