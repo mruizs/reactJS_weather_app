@@ -14,13 +14,6 @@ h1, h2 {
   background: #fff;
 }
 
-header{
-  background: #fff;
-  border-top: 6px solid #9900ff;
-  padding: 15px;
-  text-align: center;
-}
-
 #today {
   background: #fff;
   border-top: 6px solid #9900ff;
@@ -39,7 +32,7 @@ header{
   padding-bottom: 2em;
 }
 
-#day1, #day2, #day3, #day4, #day5, #day6  {
+#prevision  {
   background: #fff;
   border-top: 6px solid #9900ff;
   font-size: .8em;

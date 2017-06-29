@@ -61,8 +61,8 @@ export default class Layout extends React.Component {
 
     search(newCity) {
       const url = 'http://api.openweathermap.org/data/2.5/forecast/daily'
-      var unit = 'metric'
-      var symbol = ''
+      let unit = 'metric'
+      let symbol = ''
       if (this.state.units === "imperial") {
         unit = 'imperial'
         symbol = 'ºF'
@@ -73,20 +73,20 @@ export default class Layout extends React.Component {
       const days = 7
       const apiKey = '0c13455f76f055afc22e9a1cf9b67b7c'
 
-      var requestUrl = `${url}?q=${newCity}&cnt=${days}&units=${unit}&APPID=${apiKey}`
+      let requestUrl = `${url}?q=${newCity}&cnt=${days}&units=${unit}&APPID=${apiKey}`
       // console.log(requestUrl)
 
       Request.get(requestUrl).use(jsonp({
         timeout: 3000,
-      })).then(function(res) {
+      })).then((res) => {
         if (res.body.cod === "200") {
 
-          var city = {
+          let city = {
             name: res.body.city.name,
             country: res.body.city.country
           }
 
-          var day0 = {
+          let day0 = {
             dt: moment.unix(res.body.list[0].dt).format("[Today] MMM Do"),
             day: Math.round(res.body.list[0].temp.day),
             min: Math.round(res.body.list[0].temp.min),
@@ -96,7 +96,7 @@ export default class Layout extends React.Component {
             morn: Math.round(res.body.list[0].temp.morn)
           }
 
-          var day1 = {
+          let day1 = {
             dt: moment.unix(res.body.list[1].dt).format("ddd MMM Do"),
             day: Math.round(res.body.list[1].temp.day),
             min: Math.round(res.body.list[1].temp.min),
@@ -106,7 +106,7 @@ export default class Layout extends React.Component {
             morn: Math.round(res.body.list[1].temp.morn)
           }
 
-          var day2 = {
+          let day2 = {
             dt: moment.unix(res.body.list[2].dt).format("ddd MMM Do"),
             day: Math.round(res.body.list[2].temp.day),
             min: Math.round(res.body.list[2].temp.min),
@@ -116,7 +116,7 @@ export default class Layout extends React.Component {
             morn: Math.round(res.body.list[2].temp.morn)
           }
 
-          var day3 = {
+          let day3 = {
             dt: moment.unix(res.body.list[3].dt).format("ddd MMM Do"),
             day: Math.round(res.body.list[3].temp.day),
             min: Math.round(res.body.list[3].temp.min),
@@ -126,7 +126,7 @@ export default class Layout extends React.Component {
             morn: Math.round(res.body.list[3].temp.morn)
           }
 
-          var day4 = {
+          let day4 = {
             dt: moment.unix(res.body.list[4].dt).format("ddd MMM Do"),
             day: Math.round(res.body.list[4].temp.day),
             min: Math.round(res.body.list[4].temp.min),
@@ -136,7 +136,7 @@ export default class Layout extends React.Component {
             morn: Math.round(res.body.list[4].temp.morn)
           }
 
-          var day5 = {
+          let day5 = {
             dt: moment.unix(res.body.list[5].dt).format("ddd MMM Do"),
             day: Math.round(res.body.list[5].temp.day),
             min: Math.round(res.body.list[5].temp.min),
@@ -146,7 +146,7 @@ export default class Layout extends React.Component {
             morn: Math.round(res.body.list[5].temp.morn)
           }
 
-          var day6 = {
+          let day6 = {
             dt: moment.unix(res.body.list[6].dt).format("ddd MMM Do"),
             day: Math.round(res.body.list[6].temp.day),
             min: Math.round(res.body.list[6].temp.min),
@@ -156,7 +156,7 @@ export default class Layout extends React.Component {
             morn: Math.round(res.body.list[6].temp.morn)
           }
 
-          var chartData = {
+          let chartData = {
             labels: [
               moment.unix(res.body.list[0].dt).format("ddd"),
               moment.unix(res.body.list[1].dt).format("ddd"),
@@ -198,6 +198,12 @@ export default class Layout extends React.Component {
             ]
           }
 
+          let pressure = 0
+          for (let j = 0; j<days; j++) {
+            pressure += res.body.list[j].pressure
+          }
+          let avgPressure = Math.round(pressure/days)
+
           this.setState({
             city: city,
             day0: day0,
@@ -208,20 +214,10 @@ export default class Layout extends React.Component {
             day5: day5,
             day6: day6,
             symbol: symbol,
-            chartData: chartData
+            chartData: chartData,
+            avgPressure: avgPressure
           })
-
-          var pressure = 0
-          for (var j = 0; j<days; j++) {
-            pressure += res.body.list[j].pressure
-          }
-          var avgPressure = Math.round(pressure/days)
-          this.setState({
-            avgPressure
-          })
-        } else {
-          console.log(err)
         }
-      }.bind(this))
+      })
     } //search
 }
