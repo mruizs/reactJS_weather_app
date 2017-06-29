@@ -19,6 +19,7 @@ export default class Layout extends React.Component {
       super()
       this.state = {
         city: {},
+        data: [],
         day0: {},
         day1: {},
         day2: {},
@@ -38,13 +39,14 @@ export default class Layout extends React.Component {
     } //componentDidMount
 
     render(){
+      // console.log(this.state.data)
       return(
           <div className="container">
             <div className="row">
               <Header city={this.state.city.name} country={this.state.city.country} />
             </div>
             <div id="info" className="row">
-              <Today temp={this.state.day0} symbol={this.state.symbol} pressure={this.state.avgPressure} />
+              <Today temp={this.state.data} symbol={this.state.symbol} pressure={this.state.avgPressure} />
               <Search units={this.state.units} onUnitsChanged={this.onUnitsChanged.bind(this)} search={this.search.bind(this)} />
               <Chart chartData={this.state.chartData} />
             </div>
@@ -76,6 +78,8 @@ export default class Layout extends React.Component {
       let requestUrl = `${url}?q=${newCity}&cnt=${days}&units=${unit}&APPID=${apiKey}`
       // console.log(requestUrl)
 
+      let data = []
+
       Request.get(requestUrl).use(jsonp({
         timeout: 3000,
       })).then((res) => {
@@ -85,6 +89,22 @@ export default class Layout extends React.Component {
             name: res.body.city.name,
             country: res.body.city.country
           }
+
+          // let days = []
+
+          for (let i = 0; i<days; i++) {
+            data.push({
+              dt: moment.unix(res.body.list[i].dt).format("ddd MMM Do"),
+              day: Math.round(res.body.list[i].temp.day),
+              min: Math.round(res.body.list[i].temp.min),
+              max: Math.round(res.body.list[i].temp.max),
+              night: Math.round(res.body.list[i].temp.night),
+              eve: Math.round(res.body.list[i].temp.eve),
+              morn: Math.round(res.body.list[i].temp.morn)
+            })
+          }
+
+          // console.log(data)
 
           let day0 = {
             dt: moment.unix(res.body.list[0].dt).format("[Today] MMM Do"),
@@ -206,6 +226,7 @@ export default class Layout extends React.Component {
 
           this.setState({
             city: city,
+            data: data,
             day0: day0,
             day1: day1,
             day2: day2,
@@ -217,6 +238,7 @@ export default class Layout extends React.Component {
             chartData: chartData,
             avgPressure: avgPressure
           })
+          // console.log(this.state.data[0])
         }
       })
     } //search
